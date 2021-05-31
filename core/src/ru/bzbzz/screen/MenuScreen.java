@@ -10,7 +10,8 @@ import ru.bzbzz.base.BaseScreen;
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
-    private Vector2 pos;
+    private Vector2 pos;//вектор для отрисовки изображения
+    private Vector2 center;
     private Vector2 destination;
     private Vector2 v;//вектор скорости
     private Vector2 h;//вектор траектории движения
@@ -20,6 +21,7 @@ public class MenuScreen extends BaseScreen {
         super.show();
         img = new Texture("frog.jpg");
         pos = new Vector2(0, Gdx.graphics.getHeight());
+        center = new Vector2(128, Gdx.graphics.getHeight() - 128);
         destination = new Vector2(0, Gdx.graphics.getHeight());
         v = new Vector2();
         h = new Vector2();
@@ -28,7 +30,9 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         pos.add(v);
+        center.add(v);
         ScreenUtils.clear(0.5f, 0.2f, 0.7f, 1);
+
         batch.begin();
         batch.draw(img, pos.x, Gdx.graphics.getHeight() - pos.y, 256, 256);
         batch.end();
@@ -43,7 +47,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         destination.set(screenX, screenY);
-        h.set(destination.sub(pos));//высчитывание траектории движения
+        h.set(destination.sub(center));//вычисление траектории движения
 
         v.x = h.x > 0 ? 1 : -1;//определение направления движения(скорость движения = 1)
         v.y = h.y > 0 ? 1 : -1;//
