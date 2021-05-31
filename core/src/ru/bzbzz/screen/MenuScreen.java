@@ -10,6 +10,7 @@ import ru.bzbzz.base.BaseScreen;
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
+    private Texture background;
 
     private Vector2 pos;//вектор для отрисовки изображения
     private Vector2 center;
@@ -21,8 +22,10 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
         img = new Texture("UFO.png");
+        background = new Texture("bckground.jpg");
+
         pos = new Vector2(0, Gdx.graphics.getHeight());
-        center = new Vector2((float) img.getWidth()/2, (float) (Gdx.graphics.getHeight() - img.getHeight()/2));
+        center = new Vector2((float) img.getWidth() / 2, (float) (Gdx.graphics.getHeight() - img.getHeight() / 2));
         destination = new Vector2(0, Gdx.graphics.getHeight());
         v = new Vector2();
         h = new Vector2();
@@ -43,6 +46,7 @@ public class MenuScreen extends BaseScreen {
 
 
         batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(img, pos.x, Gdx.graphics.getHeight() - pos.y);
         batch.end();
     }
@@ -58,7 +62,7 @@ public class MenuScreen extends BaseScreen {
         destination.set(screenX, screenY);
         h.set(destination.x - center.x, destination.y - center.y);//вычисление траектории движения
 
-        v.set(h.x / 100, h.y / 100);//с какой скоростью будет двигаться картинка
+        v.set(h.x / 80, h.y / 80);//с какой скоростью будет двигаться картинка
 
         return super.touchDown(screenX, screenY, pointer, button);
     }
