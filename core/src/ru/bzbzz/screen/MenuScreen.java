@@ -20,7 +20,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        img = new Texture("frog.jpg");
+        img = new Texture("UFO.png");
         pos = new Vector2(0, Gdx.graphics.getHeight());
         center = new Vector2((float) img.getWidth()/2, (float) (Gdx.graphics.getHeight() - img.getHeight()/2));
         destination = new Vector2(0, Gdx.graphics.getHeight());
@@ -39,7 +39,7 @@ public class MenuScreen extends BaseScreen {
             pos.add(v);
             center.add(v);
         }
-        ScreenUtils.clear(0.5f, 0.2f, 0.7f, 1);
+        ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
 
 
         batch.begin();
