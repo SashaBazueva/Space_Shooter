@@ -24,30 +24,30 @@ public class MenuScreen extends BaseScreen {
         img = new Texture("frog.jpg");
         background = new Texture("bckground.jpg");
 
-        pos = new Vector2(0, Gdx.graphics.getHeight());
+        pos = new Vector2(-0.5f, -0.5f);
         center = new Vector2((float) img.getWidth() / 2, (float) (Gdx.graphics.getHeight() - img.getHeight() / 2));
-        destination = new Vector2(0, Gdx.graphics.getHeight());
+        destination = new Vector2();
         v = new Vector2();
         h = new Vector2();
     }
 
     @Override
     public void render(float delta) {
-//        if (Math.round(center.x) == Math.round(destination.x)) {
-//            v.set(0, v.y);
-//        }
-//        if (Math.round(center.y) == Math.round(destination.y)) {
-//            v.set(v.x, 0);
-//        } else {
-//            pos.add(v);
-//            center.add(v);
-//        }
+        if (Math.round(center.x) == Math.round(destination.x)) {
+            v.set(0, v.y);
+        }
+        if (Math.round(center.y) == Math.round(destination.y)) {
+            v.set(v.x, 0);
+        } else {
+            pos.add(v);
+            center.add(v);
+        }
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
 
 
         batch.begin();
-        batch.draw(background, -1f, -1f, 2f, 2f);
-        batch.draw(img,0, 0, 1f, 1f);
+        batch.draw(background, -0.5f, -0.5f, 1f, 1f);
+        batch.draw(img, pos.x, pos.y, 1f, 1f);
         batch.end();
     }
 
@@ -58,14 +58,14 @@ public class MenuScreen extends BaseScreen {
         background.dispose();
     }
 
-    //@Override
-//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        destination.set(screenX, screenY);
-//        h.set(destination.x - center.x, destination.y - center.y);//вычисление траектории движения
-//
-//        v.set(h.x / 80, h.y / 80);//с какой скоростью будет двигаться картинка
-//
-//        return super.touchDown(screenX, screenY, pointer, button);
-//    }
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        destination.set(screenX, screenY);
+        h.set(destination.x - center.x, destination.y - center.y);//вычисление траектории движения
+
+        v.set(h.x / 80, h.y / 80);//с какой скоростью будет двигаться картинка
+
+        return super.touchDown(screenX, screenY, pointer, button);
+    }
 
 }
