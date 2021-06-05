@@ -4,10 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
-
-import ru.bzbzz.math.MatrixUtils;
-import ru.bzbzz.math.Rect;
 
 public class BaseScreen implements Screen, InputProcessor {
 
@@ -16,6 +12,7 @@ public class BaseScreen implements Screen, InputProcessor {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        batch.getProjectionMatrix().idt();
         Gdx.input.setInputProcessor(this);
     }
 
