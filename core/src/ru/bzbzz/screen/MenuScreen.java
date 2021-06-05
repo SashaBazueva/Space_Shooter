@@ -26,7 +26,7 @@ public class MenuScreen extends BaseScreen {
         imgHalfWidth = img.getWidth() / 2;
         //background = new Texture("background.jpg");
 
-        pos = new Vector2(imgHalfWidth, imgHalfHeight);
+        pos = new Vector2(-0.5f, -0.5f);
         tmp = new Vector2();
         v = new Vector2();
         dest = new Vector2();
@@ -34,12 +34,12 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        tmp.set(dest);
-        if (tmp.sub(pos).len() <= v.len()) {
-            pos.set(dest);
-        } else {
-            pos.add(v);
-        }
+//        tmp.set(dest);
+//        if (tmp.sub(pos).len() <= v.len()) {
+//            pos.set(dest);
+//        } else {
+//            pos.add(v);
+//        }
 
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
 
@@ -47,7 +47,7 @@ public class MenuScreen extends BaseScreen {
         batch.begin();
 //        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 //        batch.draw(img, pos.x -  imgHalfWidth, pos.y - imgHalfHeight, 1f, 1f);//(pos.y - imgHalfHeight*2.7f)*(-1)
-        batch.draw(img, 0, 0, 1f, 1f);
+        batch.draw(img, pos.x, pos.y, 1f, 1f);
         batch.end();
     }
 

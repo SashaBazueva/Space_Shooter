@@ -36,11 +36,19 @@ public class Rect {
     }
 
     public float getWidth() {
+        return halfWidth * 2f;
+    }
+
+    public float getHalfWidth() {
         return halfWidth;
     }
 
-    public float getHeight() {
+    public float getHalfHeight() {
         return halfHeight;
+    }
+
+    public float getHeight() {
+        return halfHeight * 2f;
     }
 
     //Setters
@@ -50,7 +58,7 @@ public class Rect {
         halfWidth = from.halfWidth;
     }
 
-    public void set(float x, float y, float width, float height){
+    public void set(float x, float y, float width, float height) {
         pos.set(x, y);
         setSize(width, height);
     }
@@ -79,7 +87,7 @@ public class Rect {
         this.halfHeight = height / 2;
     }
 
-    public void setSize(float width, float height){
+    public void setSize(float width, float height) {
         this.halfWidth = width / 2;
         this.halfHeight = height / 2;
     }
