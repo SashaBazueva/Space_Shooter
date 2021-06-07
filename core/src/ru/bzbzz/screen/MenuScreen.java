@@ -21,7 +21,7 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
 
-        bg = new Texture("background.jpg");//путь к текстуре
+        bg = new Texture("background.jpg");
         background = new Background(bg);
 
         lg = new Texture("UFO.png");

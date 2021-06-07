@@ -1,7 +1,6 @@
 package ru.bzbzz.sprite;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,7 +16,7 @@ public class Logo extends Sprite {
     private Vector2 tmp;
 
 
-    public Logo(Texture region){
+    public Logo(Texture region) {
         super(new TextureRegion(region));
 
         this.touch = new Vector2();
@@ -30,9 +29,9 @@ public class Logo extends Sprite {
         super.update(delta);
 
         tmp.set(touch);
-        if (tmp.sub(pos).len()<=V_LEN){
+        if (tmp.sub(pos).len() <= V_LEN) {
             pos.set(touch);
-        }else{
+        } else {
             pos.add(v);
         }
 
