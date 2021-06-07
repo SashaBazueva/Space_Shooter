@@ -1,71 +1,104 @@
 package ru.bzbzz.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.base.BaseScreen;
+import ru.bzbzz.math.Rect;
+import ru.bzbzz.sprite.Background;
+import ru.bzbzz.sprite.ButtonExit;
+import ru.bzbzz.sprite.Logo;
+import ru.bzbzz.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
+    private static final int STAR_COUNT = 256;
 
-    private Texture img;
-    private Texture background;
+    private Texture bg;
+    private Background background;
 
-    private Vector2 pos;//вектор для отрисовки изображения
-    private Vector2 center;
-    private Vector2 destination;
-    private Vector2 v;//вектор скорости
-    private Vector2 h;//вектор траектории движения
+    private Texture lg;
+    private Logo logo;
+
+    private TextureAtlas atlas;
+
+    private Star[] stars;
+    private ButtonExit exit;
+
 
     @Override
     public void show() {
         super.show();
-        img = new Texture("frog.jpg");
-        background = new Texture("bckground.jpg");
+        bg = new Texture("background.jpg");
+        background = new Background(bg);
 
-        pos = new Vector2(0, Gdx.graphics.getHeight());
-        center = new Vector2((float) img.getWidth() / 2, (float) (Gdx.graphics.getHeight() - img.getHeight() / 2));
-        destination = new Vector2(0, Gdx.graphics.getHeight());
-        v = new Vector2();
-        h = new Vector2();
+        lg = new Texture("UFO.png");
+        logo = new Logo(lg);
+
+        atlas = new TextureAtlas("textures/buttons and star.atlas");
+        stars = new Star[STAR_COUNT];
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(atlas);
+        }
+        exit = new ButtonExit(atlas);
     }
 
     @Override
     public void render(float delta) {
-//        if (Math.round(center.x) == Math.round(destination.x)) {
-//            v.set(0, v.y);
-//        }
-//        if (Math.round(center.y) == Math.round(destination.y)) {
-//            v.set(v.x, 0);
-//        } else {
-//            pos.add(v);
-//            center.add(v);
-//        }
-        ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
-
-
-        batch.begin();
-        batch.draw(background, -1f, -1f, 2f, 2f);
-        batch.draw(img,0, 0, 1f, 1f);
-        batch.end();
+        update(delta);
+        draw();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        img.dispose();
-        background.dispose();
+        lg.dispose();
+        bg.dispose();
+        atlas.dispose();
     }
 
-    //@Override
-//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        destination.set(screenX, screenY);
-//        h.set(destination.x - center.x, destination.y - center.y);//вычисление траектории движения
-//
-//        v.set(h.x / 80, h.y / 80);//с какой скоростью будет двигаться картинка
-//
-//        return super.touchDown(screenX, screenY, pointer, button);
-//    }
+    @Override
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
+        logo.resize(worldBounds);
 
+        for (Star star : stars) {
+            star.resize(worldBounds);
+        }
+        exit.resize(worldBounds);
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        exit.touchDown(touch,pointer,button);
+        logo.touchDown(touch, pointer, button);
+        return super.touchDown(touch, pointer, button);
+    }
+
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer, int button) {
+        exit.touchDown(touch,pointer,button);
+        return super.touchUp(touch, pointer, button);
+    }
+
+    private void update(float delta){
+        //logo.update(delta);
+        for (Star star : stars) {
+            star.update(delta);
+        }
+
+    }
+
+    private void draw(){
+        ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
+        batch.begin();
+        background.draw(batch);
+        //logo.draw(batch);
+        for (Star star : stars) {
+            star.draw(batch);
+        }
+        batch.end();
+    }
 }
