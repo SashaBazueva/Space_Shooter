@@ -59,7 +59,8 @@ public class Rect {
     }
 
     public void set(float x, float y, float width, float height) {
-        pos.set(x, y);
+        setLeft(x);
+        setBottom(y);
         setSize(width, height);
     }
 

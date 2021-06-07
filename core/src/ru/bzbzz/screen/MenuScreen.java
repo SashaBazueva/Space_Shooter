@@ -9,14 +9,13 @@ import ru.bzbzz.base.BaseScreen;
 public class MenuScreen extends BaseScreen {
 
     private Texture img;
-    int imgHalfHeight;
-    int imgHalfWidth;
+    private int imgHalfHeight;
+    private int imgHalfWidth;
     //private Texture background;
 
     private Vector2 pos;//вектор для отрисовки изображения
     private Vector2 tmp;
     private Vector2 v;//вектор скорости
-    private Vector2 dest;//вектор траектории движения
 
     @Override
     public void show() {
@@ -29,24 +28,15 @@ public class MenuScreen extends BaseScreen {
         pos = new Vector2(-0.5f, -0.5f);
         tmp = new Vector2();
         v = new Vector2();
-        dest = new Vector2();
     }
 
     @Override
     public void render(float delta) {
-//        tmp.set(dest);
-//        if (tmp.sub(pos).len() <= v.len()) {
-//            pos.set(dest);
-//        } else {
-//            pos.add(v);
-//        }
 
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
 
 
         batch.begin();
-//        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        batch.draw(img, pos.x -  imgHalfWidth, pos.y - imgHalfHeight, 1f, 1f);//(pos.y - imgHalfHeight*2.7f)*(-1)
         batch.draw(img, pos.x, pos.y, 1f, 1f);
         batch.end();
     }
@@ -59,11 +49,8 @@ public class MenuScreen extends BaseScreen {
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        dest.set(screenX, screenY);//сохраняем координаты точки нажатия
-        v.set((screenX - pos.x) / 80, (screenY - pos.y) / 80);//с какой скоростью будет двигаться картинка
-
-        return super.touchDown(screenX, screenY, pointer, button);
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        pos.set(touch);
+        return super.touchDown(touch, pointer, button);
     }
-
 }
