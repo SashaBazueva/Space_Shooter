@@ -5,29 +5,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.base.BaseScreen;
+import ru.bzbzz.math.Rect;
+import ru.bzbzz.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
 
-    private Texture img;
-    private int imgHalfHeight;
-    private int imgHalfWidth;
-    //private Texture background;
+    private Texture bg;
+    private Background background;
 
+    private Texture img;
     private Vector2 pos;//вектор для отрисовки изображения
-    private Vector2 tmp;
-    private Vector2 v;//вектор скорости
 
     @Override
     public void show() {
         super.show();
-        img = new Texture("frog.jpg");
-        imgHalfHeight = img.getHeight() / 2;
-        imgHalfWidth = img.getWidth() / 2;
-        //background = new Texture("background.jpg");
-
+        img = new Texture("UFO.png");
         pos = new Vector2(-0.5f, -0.5f);
-        tmp = new Vector2();
-        v = new Vector2();
+
+        bg = new Texture("background.jpg");//путь к текстуре
+        background = new Background(bg);
     }
 
     @Override
@@ -37,7 +33,8 @@ public class MenuScreen extends BaseScreen {
 
 
         batch.begin();
-        batch.draw(img, pos.x, pos.y, 1f, 1f);
+        background.draw(batch);
+        batch.draw(img, pos.x, pos.y, 0.256f, 0.136f);
         batch.end();
     }
 
@@ -45,7 +42,13 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         super.dispose();
         img.dispose();
-        //background.dispose();
+        bg.dispose();
+    }
+
+    @Override
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
     }
 
     @Override
