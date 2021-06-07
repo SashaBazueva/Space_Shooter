@@ -7,41 +7,43 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.bzbzz.base.BaseScreen;
 import ru.bzbzz.math.Rect;
 import ru.bzbzz.sprite.Background;
+import ru.bzbzz.sprite.Logo;
 
 public class MenuScreen extends BaseScreen {
 
     private Texture bg;
     private Background background;
 
-    private Texture img;
-    private Vector2 pos;//вектор для отрисовки изображения
+    private Texture lg;
+    private Logo logo;
 
     @Override
     public void show() {
         super.show();
-        img = new Texture("UFO.png");
-        pos = new Vector2(-0.5f, -0.5f);
 
         bg = new Texture("background.jpg");//путь к текстуре
         background = new Background(bg);
+
+        lg = new Texture("UFO.png");
+        logo = new Logo(lg);
     }
 
     @Override
     public void render(float delta) {
-
+        logo.update(delta);
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
 
 
         batch.begin();
         background.draw(batch);
-        batch.draw(img, pos.x, pos.y, 0.256f, 0.136f);
+        logo.draw(batch);
         batch.end();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        img.dispose();
+        lg.dispose();
         bg.dispose();
     }
 
@@ -49,11 +51,12 @@ public class MenuScreen extends BaseScreen {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
+        logo.resize(worldBounds);
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        pos.set(touch);
+        logo.touchDown(touch, pointer, button);
         return super.touchDown(touch, pointer, button);
     }
 }
