@@ -18,8 +18,8 @@ public class MenuScreen extends BaseScreen {
     private final Game game;
 
 
-    protected Texture bg;
-    protected Background background;
+    private Texture bg;
+    private Background background;
 
     private TextureAtlas atlas;
 

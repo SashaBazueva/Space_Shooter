@@ -9,8 +9,9 @@ import ru.bzbzz.sprite.Background;
 
 public class GameScreen extends BaseScreen {
 
-    protected Texture bg;
-    protected Background background;
+    private Texture bg;
+    private Background background;
+
 
     @Override
     public void show() {
