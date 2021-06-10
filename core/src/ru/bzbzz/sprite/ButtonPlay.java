@@ -7,7 +7,7 @@ import ru.bzbzz.math.Rect;
 import ru.bzbzz.screen.GameScreen;
 
 public class ButtonPlay extends ScaledButton {
-    private static final float HEIGHT = 0.17f;
+    private static final float HEIGHT = 0.16f;
     private Game game;
 
     public ButtonPlay(TextureAtlas atlas, Game game) {
