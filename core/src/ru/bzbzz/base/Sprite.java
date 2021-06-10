@@ -47,6 +47,10 @@ public class Sprite extends Rect {
         return false;
     }
 
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
     public float getAngle() {
         return angle;
     }

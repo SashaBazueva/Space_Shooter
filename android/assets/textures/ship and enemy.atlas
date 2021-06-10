@@ -1,0 +1,20 @@
+
+ship and enemy.png
+size: 256, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+ship1
+  rotate: false
+  xy: 88, 15
+  size: 76, 90
+  orig: 76, 90
+  offset: 0, 0
+  index: -1
+ship2
+  rotate: false
+  xy: 2, 2
+  size: 84, 103
+  orig: 84, 103
+  offset: 0, 0
+  index: -1
