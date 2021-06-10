@@ -9,10 +9,10 @@ import ru.bzbzz.base.ScaledButton;
 import ru.bzbzz.math.Rect;
 
 public class ButtonExit extends ScaledButton {
-    private static final float HEIGHT = 0.2f;
+    private static final float HEIGHT = 0.15f;
 
     public ButtonExit(TextureAtlas atlas) {
-        super(atlas.findRegion("pause"));
+        super(atlas.findRegion("exit"));
     }
 
     @Override
@@ -24,11 +24,7 @@ public class ButtonExit extends ScaledButton {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        //batch.draw();
-        super.draw(batch);
+        setBottom(worldBounds.getBottom() + 0.03f);
+        setRight(worldBounds.getRight() - 0.03f);
     }
 }
