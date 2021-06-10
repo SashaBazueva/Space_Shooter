@@ -3,13 +3,16 @@ package ru.bzbzz.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.math.MatrixUtils;
 import ru.bzbzz.math.Rect;
+import ru.bzbzz.sprite.Background;
 
 public class BaseScreen implements Screen, InputProcessor {
 

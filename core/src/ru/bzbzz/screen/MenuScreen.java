@@ -11,18 +11,15 @@ import ru.bzbzz.math.Rect;
 import ru.bzbzz.sprite.Background;
 import ru.bzbzz.sprite.ButtonExit;
 import ru.bzbzz.sprite.ButtonPlay;
-import ru.bzbzz.sprite.Logo;
 import ru.bzbzz.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
     private static final int STAR_COUNT = 256;
     private final Game game;
 
-    private Texture bg;
-    private Background background;
 
-    private Texture lg;
-    private Logo logo;
+    protected Texture bg;
+    protected Background background;
 
     private TextureAtlas atlas;
 
@@ -37,11 +34,9 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        bg = new Texture("background.jpg");
+        bg = new Texture("back2.png");
         background = new Background(bg);
 
-        lg = new Texture("UFO.png");
-        logo = new Logo(lg);
 
         atlas = new TextureAtlas("textures/buttons and star.atlas");
         stars = new Star[STAR_COUNT];
@@ -61,7 +56,6 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        lg.dispose();
         bg.dispose();
         atlas.dispose();
     }
@@ -70,8 +64,6 @@ public class MenuScreen extends BaseScreen {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
-        logo.resize(worldBounds);
-
         for (Star star : stars) {
             star.resize(worldBounds);
         }
@@ -83,7 +75,6 @@ public class MenuScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         exit.touchDown(touch,pointer,button);
         play.touchDown(touch, pointer, button);
-        logo.touchDown(touch, pointer, button);
         return super.touchDown(touch, pointer, button);
     }
 
@@ -94,8 +85,12 @@ public class MenuScreen extends BaseScreen {
         return super.touchUp(touch, pointer, button);
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return super.keyDown(keycode);
+    }
+
     private void update(float delta){
-        //logo.update(delta);
         for (Star star : stars) {
             star.update(delta);
         }
@@ -106,7 +101,6 @@ public class MenuScreen extends BaseScreen {
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
         batch.begin();
         background.draw(batch);
-        //logo.draw(batch);
         for (Star star : stars) {
             star.draw(batch);
         }
