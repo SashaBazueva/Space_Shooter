@@ -1,23 +1,19 @@
 package ru.bzbzz.sprite;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import ru.bzbzz.base.ScaledButton;
 import ru.bzbzz.math.Rect;
 
-public class ButtonExit extends ScaledButton {
-    private static final float HEIGHT = 0.15f;
+public class ButtonPlay extends ScaledButton {
+    private static final float HEIGHT = 0.17f;
 
-    public ButtonExit(TextureAtlas atlas) {
-        super(atlas.findRegion("exit"));
+    public ButtonPlay(TextureAtlas atlas) {
+        super(atlas.findRegion("play"));
     }
 
     @Override
     protected void action() {
-        Gdx.app.exit();
+
     }
 
     @Override
@@ -25,6 +21,6 @@ public class ButtonExit extends ScaledButton {
         super.resize(worldBounds);
         setHeightProportion(HEIGHT);
         setBottom(worldBounds.getBottom() + 0.03f);
-        setRight(worldBounds.getRight() - 0.03f);
+        setLeft(worldBounds.getLeft() + 0.03f);
     }
 }
