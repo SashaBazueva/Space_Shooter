@@ -1,19 +1,22 @@
 package ru.bzbzz.sprite;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import ru.bzbzz.base.ScaledButton;
 import ru.bzbzz.math.Rect;
+import ru.bzbzz.screen.GameScreen;
 
 public class ButtonPlay extends ScaledButton {
     private static final float HEIGHT = 0.17f;
+    private Game game;
 
-    public ButtonPlay(TextureAtlas atlas) {
+    public ButtonPlay(TextureAtlas atlas, Game game) {
         super(atlas.findRegion("play"));
     }
 
     @Override
     protected void action() {
-
+        game.setScreen(new GameScreen());
     }
 
     @Override

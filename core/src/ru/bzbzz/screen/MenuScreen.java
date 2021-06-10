@@ -1,5 +1,6 @@
 package ru.bzbzz.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,7 @@ import ru.bzbzz.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
     private static final int STAR_COUNT = 256;
+    private final Game game;
 
     private Texture bg;
     private Background background;
@@ -28,6 +30,9 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit exit;
     private ButtonPlay play;
 
+    public MenuScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -44,7 +49,7 @@ public class MenuScreen extends BaseScreen {
             stars[i] = new Star(atlas);
         }
         exit = new ButtonExit(atlas);
-        play = new ButtonPlay(atlas);
+        play = new ButtonPlay(atlas, game);
     }
 
     @Override
