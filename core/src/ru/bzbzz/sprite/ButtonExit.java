@@ -9,7 +9,7 @@ import ru.bzbzz.base.ScaledButton;
 import ru.bzbzz.math.Rect;
 
 public class ButtonExit extends ScaledButton {
-    private static final float HEIGHT = 0.15f;
+    private static final float HEIGHT = 0.16f;
 
     public ButtonExit(TextureAtlas atlas) {
         super(atlas.findRegion("exit"));
