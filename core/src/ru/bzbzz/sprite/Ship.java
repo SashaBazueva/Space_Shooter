@@ -2,39 +2,35 @@ package ru.bzbzz.sprite;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 
 import ru.bzbzz.base.Sprite;
 import ru.bzbzz.math.Rect;
 
 public class Ship extends Sprite {
+    private static final float SCALE = 0.2f;
 
-    private static float SCALE = 0.22f;
-    private static float VELOCITY = 0.0065f;
+    private static float velocity;
+    private Vector2 touch;
 
-    private boolean isMovingON;
     private Rect worldBounds;
 
     public Ship(TextureAtlas atlas) {
-        super(atlas.findRegion("ship1"));
+        super(atlas.findRegion("ship2"));
+        touch = new Vector2();
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (isMovingON) {
-            pos.set(pos.x + VELOCITY, pos.y);
+        if (velocity != 0) {
+            pos.set(pos.x + velocity, pos.y);
         }
-        if (getRight() < worldBounds.getLeft()) {
-            setLeft(worldBounds.getRight());
+        if ((getRight() - getHalfWidth()) < worldBounds.getLeft()) {
+            setRight(worldBounds.getLeft() + getHalfWidth());
         }
-        if (getLeft() > worldBounds.getRight()) {
-            setRight(worldBounds.getLeft());
-        }
-        if (getTop() < worldBounds.getBottom()) {
-            setBottom(worldBounds.getTop());
-        }
-        if (getBottom() > worldBounds.getTop()) {
-            setTop(worldBounds.getBottom());
+        if ((getLeft() + getHalfWidth()) > worldBounds.getRight()) {
+            setLeft(worldBounds.getRight() - getHalfWidth());
         }
     }
 
@@ -54,17 +50,11 @@ public class Ship extends Sprite {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == 21) {
-            if (VELOCITY > 0) {
-                VELOCITY *= -1;
-            }
-            isMovingON = true;
+            velocity = -0.0065f;
             return true;
         }
         if (keycode == 22) {
-            if (VELOCITY<0){
-                VELOCITY *= -1;
-            }
-            isMovingON = true;
+            velocity = 0.0065f;
             return true;
         }
         return false;
@@ -73,8 +63,16 @@ public class Ship extends Sprite {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == 21 | keycode == 22) {
-            isMovingON = false;
+            velocity = 0f;
         }
         return super.keyUp(keycode);
     }
+
+    @Override
+    public boolean touchDragged(Vector2 touch, int pointer) {
+        this.touch.set(touch);
+        pos.set(touch.x - worldBounds.getHalfWidth(), pos.y);
+        return super.touchDragged(touch, pointer);
+    }
+
 }

@@ -1,27 +1,23 @@
 package ru.bzbzz.screen;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.base.BaseScreen;
 import ru.bzbzz.math.Rect;
-import ru.bzbzz.sprite.Background;
 import ru.bzbzz.sprite.Ship;
 
 public class GameScreen extends BaseScreen {
 
-    private Texture bg;
-    private Background background;
     private TextureAtlas atlas;
 
     private Ship ship;
 
     @Override
     public void show() {
+        isGameStart = true;
         super.show();
-        bg = new Texture("back1.png");
-        background = new Background(bg);
         atlas = new TextureAtlas("textures/ship and enemy.atlas");
         ship = new Ship(atlas);
     }
@@ -36,25 +32,26 @@ public class GameScreen extends BaseScreen {
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        background.resize(worldBounds);
         ship.resize(worldBounds);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        bg.dispose();
         atlas.dispose();
     }
 
-    private void update(float delta){
+    @Override
+    public void update(float delta){
+        super.update(delta);
         ship.update(delta);
     }
 
-    private void draw(){
+    @Override
+    public void draw(){
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
         batch.begin();
-        background.draw(batch);
+        super.draw();
         ship.draw(batch);
         batch.end();
     }
@@ -69,5 +66,18 @@ public class GameScreen extends BaseScreen {
         return ship.keyUp(keycode);
     }
 
+    @Override
+    public boolean touchDragged(Vector2 touch, int pointer) {
+        return ship.touchDragged(touch, pointer);
+    }
 
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        return ship.touchDown(touch, pointer, button);
+    }
+
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer, int button) {
+        return ship.touchUp(touch, pointer, button);
+    }
 }

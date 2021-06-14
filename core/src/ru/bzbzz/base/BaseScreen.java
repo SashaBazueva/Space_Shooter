@@ -3,21 +3,27 @@ package ru.bzbzz.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.math.MatrixUtils;
 import ru.bzbzz.math.Rect;
 import ru.bzbzz.sprite.Background;
+import ru.bzbzz.sprite.Star;
 
 public class BaseScreen implements Screen, InputProcessor {
+    private static final int STAR_COUNT = 256;
 
     protected SpriteBatch batch;
     protected Vector2 touch;//вектор к точке нажатия
+
+    protected static TextureAtlas bg;
+    protected static Background background1;
+    protected static Background background2;
+    protected Star[] stars;
 
     private Rect screenBounds;
     private Rect worldBounds;
@@ -26,8 +32,19 @@ public class BaseScreen implements Screen, InputProcessor {
     private Matrix4 worldToGl;
     private Matrix3 screenToWorld;
 
+    public boolean isGameStart;
+
     @Override
     public void show() {
+        bg = new TextureAtlas("textures/background.atlas");
+        background1 = new Background(bg, "part1");
+        background2 = new Background(bg, "part2");
+        stars = new Star[STAR_COUNT];
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(bg);
+        }
+
+
         touch = new Vector2();
 
         screenBounds = new Rect();
@@ -60,6 +77,12 @@ public class BaseScreen implements Screen, InputProcessor {
     }
 
     public void resize(Rect worldBounds) {
+        background1.resize(worldBounds);
+        background2.resize(worldBounds);
+        background2.setBottom(background1.getTop());
+        for (Star star : stars) {
+            star.resize(worldBounds);
+        }
     }
 
     @Override
@@ -80,11 +103,30 @@ public class BaseScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
+        bg.dispose();
+
+    }
+
+    public void update(float delta) {
+        if (isGameStart) {
+            background1.update(delta);
+            background2.update(delta);
+        }
+        for (Star star : stars) {
+            star.update(delta);
+        }
+    }
+
+    public void draw() {
+        background1.draw(batch);
+        background2.draw(batch);
+        for (Star star : stars) {
+            star.draw(batch);
+        }
     }
 
     @Override
     public boolean keyDown(int keycode) {
-
         return false;
     }
 

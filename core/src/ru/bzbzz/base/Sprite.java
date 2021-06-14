@@ -35,6 +35,10 @@ public class Sprite extends Rect {
 
     }
 
+    public boolean touchDragged(Vector2 touch, int pointer){
+        return false;
+    }
+
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         return false;
     }

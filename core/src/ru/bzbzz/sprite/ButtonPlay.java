@@ -7,7 +7,7 @@ import ru.bzbzz.math.Rect;
 import ru.bzbzz.screen.GameScreen;
 
 public class ButtonPlay extends ScaledButton {
-    private static final float HEIGHT = 0.16f;
+    private static final float HEIGHT = 0.15f;
     private Game game;
 
     public ButtonPlay(TextureAtlas atlas, Game game) {
@@ -23,7 +23,7 @@ public class ButtonPlay extends ScaledButton {
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        setHeightProportion(HEIGHT);
+        setHeightProportion(HEIGHT * worldBounds.getWidth());
         setBottom(worldBounds.getBottom() + 0.03f);
         setLeft(worldBounds.getLeft() + 0.03f);
     }

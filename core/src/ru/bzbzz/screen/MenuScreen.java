@@ -14,16 +14,10 @@ import ru.bzbzz.sprite.ButtonPlay;
 import ru.bzbzz.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
-    private static final int STAR_COUNT = 256;
     private final Game game;
-
-
-    private Texture bg;
-    private Background background;
 
     private TextureAtlas atlas;
 
-    private Star[] stars;
     private ButtonExit exit;
     private ButtonPlay play;
 
@@ -34,15 +28,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        bg = new Texture("back2.png");
-        background = new Background(bg);
-
-
-        atlas = new TextureAtlas("textures/buttons and star.atlas");
-        stars = new Star[STAR_COUNT];
-        for (int i = 0; i < stars.length; i++) {
-            stars[i] = new Star(atlas);
-        }
+        atlas = new TextureAtlas("textures/buttons.atlas");
         exit = new ButtonExit(atlas);
         play = new ButtonPlay(atlas, game);
     }
@@ -56,17 +42,12 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        bg.dispose();
         atlas.dispose();
     }
 
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        background.resize(worldBounds);
-        for (Star star : stars) {
-            star.resize(worldBounds);
-        }
         exit.resize(worldBounds);
         play.resize(worldBounds);
     }
@@ -87,23 +68,22 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode==66){
+            game.setScreen(new GameScreen());
+        }
         return super.keyDown(keycode);
     }
 
-    private void update(float delta){
-        for (Star star : stars) {
-            star.update(delta);
-        }
-
+    @Override
+    public void update(float delta){
+        super.update(delta);
     }
 
-    private void draw(){
+    @Override
+    public void draw(){
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
         batch.begin();
-        background.draw(batch);
-        for (Star star : stars) {
-            star.draw(batch);
-        }
+        super.draw();
         exit.draw(batch);
         play.draw(batch);
         batch.end();

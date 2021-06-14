@@ -1,23 +1,35 @@
 package ru.bzbzz.sprite;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ru.bzbzz.base.Sprite;
 import ru.bzbzz.math.Rect;
 
 public class Background extends Sprite {
 
-    public Background(Texture texture) {
-        super(new TextureRegion(texture));
+    private static final float VELOCITY = -0.04f;
+    private Rect worldBounds;
+
+    public Background(TextureAtlas atlas, String name) {
+        super(atlas.findRegion(name));
     }
 
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        setHeightProportion(1f);
+        setHeightProportion(2f);
         this.pos.set(worldBounds.pos);
+        setBottom(worldBounds.getBottom());
+        this.worldBounds = worldBounds;
     }
 
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        pos.set(pos.x, pos.y + VELOCITY * delta);
 
+        if (getTop() < worldBounds.getBottom()) {
+            setBottom(worldBounds.getBottom()+getHeight()-0.001f);
+        }
+    }
 }
