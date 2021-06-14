@@ -1,17 +1,15 @@
 package ru.bzbzz.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.base.BaseScreen;
 import ru.bzbzz.math.Rect;
-import ru.bzbzz.sprite.Background;
 import ru.bzbzz.sprite.ButtonExit;
 import ru.bzbzz.sprite.ButtonPlay;
-import ru.bzbzz.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
     private final Game game;
@@ -54,33 +52,33 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        exit.touchDown(touch,pointer,button);
+        exit.touchDown(touch, pointer, button);
         play.touchDown(touch, pointer, button);
         return super.touchDown(touch, pointer, button);
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        exit.touchUp(touch,pointer,button);
+        exit.touchUp(touch, pointer, button);
         play.touchUp(touch, pointer, button);
         return super.touchUp(touch, pointer, button);
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode==66){
+        if (keycode == Input.Keys.ENTER) {
             game.setScreen(new GameScreen());
         }
         return super.keyDown(keycode);
     }
 
     @Override
-    public void update(float delta){
+    public void update(float delta) {
         super.update(delta);
     }
 
     @Override
-    public void draw(){
+    public void draw() {
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
         batch.begin();
         super.draw();

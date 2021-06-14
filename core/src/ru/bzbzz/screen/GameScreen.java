@@ -58,26 +58,30 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean keyDown(int keycode) {
-        return ship.keyDown(keycode);
+        ship.keyDown(keycode);
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return ship.keyUp(keycode);
+        ship.keyUp(keycode);
+        return false;
     }
 
     @Override
     public boolean touchDragged(Vector2 touch, int pointer) {
-        return ship.touchDragged(touch, pointer);
+        return false;
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        return ship.touchDown(touch, pointer, button);
+        ship.touchDown(touch, pointer, button);
+        return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        return ship.touchUp(touch, pointer, button);
+        ship.touchUp(touch, pointer, button);
+        return false;
     }
 }

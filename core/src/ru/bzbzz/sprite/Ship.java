@@ -1,5 +1,6 @@
 package ru.bzbzz.sprite;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -8,23 +9,34 @@ import ru.bzbzz.base.Sprite;
 import ru.bzbzz.math.Rect;
 
 public class Ship extends Sprite {
-    private static final float SCALE = 0.2f;
+    private static final float SCALE = 0.18f;
+    private static final float VELOCITY = 0.2f;
+    private static final int INVALID_POINTER = -1;
 
-    private static float velocity;
+    private Vector2 v;
     private Vector2 touch;
+
+    private boolean isPressedLeft;
+    private boolean isPressedRight;
+
+    private int leftPointer;
+    private int rightPointer;
 
     private Rect worldBounds;
 
     public Ship(TextureAtlas atlas) {
         super(atlas.findRegion("ship2"));
         touch = new Vector2();
+        v = new Vector2();
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (velocity != 0) {
-            pos.set(pos.x + velocity, pos.y);
+        if (v.len() != 0) {
+            pos.mulAdd(v, delta);
         }
         if ((getRight() - getHalfWidth()) < worldBounds.getLeft()) {
             setRight(worldBounds.getLeft() + getHalfWidth());
@@ -49,12 +61,14 @@ public class Ship extends Sprite {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == 21) {
-            velocity = -0.0065f;
+        if (keycode == Input.Keys.LEFT | keycode == Input.Keys.A) {
+            isPressedLeft = true;
+            v.set(-VELOCITY, 0f);
             return true;
         }
-        if (keycode == 22) {
-            velocity = 0.0065f;
+        if (keycode == Input.Keys.RIGHT | keycode == Input.Keys.D) {
+            isPressedRight = true;
+            v.set(VELOCITY, 0f);
             return true;
         }
         return false;
@@ -62,17 +76,60 @@ public class Ship extends Sprite {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == 21 | keycode == 22) {
-            velocity = 0f;
+        switch (keycode) {
+            case Input.Keys.A:
+            case Input.Keys.LEFT:
+                v.setZero();
+                isPressedLeft = false;
+                break;
+            case Input.Keys.D:
+            case Input.Keys.RIGHT:
+                v.setZero();
+                isPressedRight = false;
+                break;
+        }
+        if (isPressedRight) {
+            v.set(VELOCITY, 0f);
+        }
+        if (isPressedLeft) {
+            v.set(-VELOCITY, 0f);
+        }
+        if (!isPressedLeft && !isPressedRight) {
+            v.setZero();
         }
         return super.keyUp(keycode);
     }
 
     @Override
-    public boolean touchDragged(Vector2 touch, int pointer) {
-        this.touch.set(touch);
-        pos.set(touch.x - worldBounds.getHalfWidth(), pos.y);
-        return super.touchDragged(touch, pointer);
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        if (touch.x < worldBounds.getHalfWidth()) {
+            leftPointer = pointer;
+            v.set(-VELOCITY, 0f);
+        } else {
+            rightPointer = pointer;
+            v.set(VELOCITY, 0f);
+        }
+        return super.touchDown(touch, pointer, button);
     }
 
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer, int button) {
+        if (leftPointer == pointer) {
+            leftPointer = INVALID_POINTER;
+            if (rightPointer != INVALID_POINTER) {
+                v.set(VELOCITY, 0f);
+            } else {
+                v.setZero();
+            }
+        }
+        if (rightPointer == pointer) {
+            rightPointer = INVALID_POINTER;
+            if (leftPointer != INVALID_POINTER) {
+                v.set(-VELOCITY, 0f);
+            } else {
+                v.setZero();
+            }
+        }
+        return super.touchUp(touch, pointer, button);
+    }
 }
