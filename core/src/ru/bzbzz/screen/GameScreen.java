@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.bzbzz.base.BaseScreen;
 import ru.bzbzz.math.Rect;
+import ru.bzbzz.pool.BulletPool;
 import ru.bzbzz.sprite.Ship;
 
 public class GameScreen extends BaseScreen {
@@ -13,19 +14,22 @@ public class GameScreen extends BaseScreen {
     private TextureAtlas atlas;
 
     private Ship ship;
+    private BulletPool bulletPool;
 
     @Override
     public void show() {
         isGameStart = true;
         super.show();
         atlas = new TextureAtlas("textures/ship and enemy.atlas");
-        ship = new Ship(atlas);
+        bulletPool = new BulletPool();
+        ship = new Ship(atlas, bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroy();
         draw();
     }
 
@@ -39,12 +43,14 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         super.dispose();
         atlas.dispose();
+        bulletPool.dispose();
     }
 
     @Override
     public void update(float delta){
         super.update(delta);
         ship.update(delta);
+        bulletPool.updateActiveSprites(delta);
     }
 
     @Override
@@ -52,8 +58,13 @@ public class GameScreen extends BaseScreen {
         ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
         batch.begin();
         super.draw();
+        bulletPool.drawActiveSprites(batch);
         ship.draw(batch);
         batch.end();
+    }
+
+    private void freeAllDestroy(){
+        bulletPool.freeAllDestroy();
     }
 
     @Override

@@ -3,18 +3,22 @@ package ru.bzbzz.sprite;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.bzbzz.base.Sprite;
 import ru.bzbzz.math.Rect;
+import ru.bzbzz.pool.BulletPool;
 
 public class Ship extends Sprite {
+
     private static final float SCALE = 0.18f;
-    private static final float VELOCITY = 0.2f;
+    private static final float VELOCITY = 0.27f;
     private static final int INVALID_POINTER = -1;
 
     private Vector2 v;
     private Vector2 touch;
+    private Vector2 tmp;
 
     private boolean isPressedLeft;
     private boolean isPressedRight;
@@ -23,13 +27,20 @@ public class Ship extends Sprite {
     private int rightPointer;
 
     private Rect worldBounds;
+    private BulletPool bulletPool;
+    private TextureRegion bulletRegion;
+    private Vector2 bulletV;
 
-    public Ship(TextureAtlas atlas) {
+    public Ship(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("ship2"));
         touch = new Vector2();
         v = new Vector2();
+        tmp = new Vector2();
         leftPointer = INVALID_POINTER;
         rightPointer = INVALID_POINTER;
+        this.bulletPool = bulletPool;
+        bulletRegion = atlas.findRegion("bullet2");
+        bulletV = new Vector2(0f, 0.5f);
     }
 
     @Override
@@ -70,6 +81,9 @@ public class Ship extends Sprite {
             isPressedRight = true;
             v.set(VELOCITY, 0f);
             return true;
+        }
+        if (keycode == Input.Keys.UP | keycode == Input.Keys.W) {
+            shoot();
         }
         return false;
     }
@@ -131,5 +145,11 @@ public class Ship extends Sprite {
             }
         }
         return super.touchUp(touch, pointer, button);
+    }
+
+    private void shoot() {
+        Bullet bullet = bulletPool.obtain();
+        tmp.set(this.pos.x, this.pos.y + getHalfHeight());
+        bullet.set(this, bulletRegion, tmp, bulletV, worldBounds, 0.04f, 1);
     }
 }
