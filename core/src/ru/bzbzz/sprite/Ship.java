@@ -1,6 +1,8 @@
 package ru.bzbzz.sprite;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,7 +19,6 @@ public class Ship extends Sprite {
     private static final int INVALID_POINTER = -1;
 
     private Vector2 v;
-    private Vector2 touch;
     private Vector2 tmp;
 
     private boolean isPressedLeft;
@@ -30,10 +31,11 @@ public class Ship extends Sprite {
     private BulletPool bulletPool;
     private TextureRegion bulletRegion;
     private Vector2 bulletV;
+    private Sound shoot;
+    private long timer;
 
     public Ship(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("ship2"));
-        touch = new Vector2();
         v = new Vector2();
         tmp = new Vector2();
         leftPointer = INVALID_POINTER;
@@ -41,6 +43,8 @@ public class Ship extends Sprite {
         this.bulletPool = bulletPool;
         bulletRegion = atlas.findRegion("bullet2");
         bulletV = new Vector2(0f, 0.5f);
+        shoot = Gdx.audio.newSound(Gdx.files.internal("sounds/shoot1.wav"));
+        timer = System.currentTimeMillis();
     }
 
     @Override
@@ -54,6 +58,9 @@ public class Ship extends Sprite {
         }
         if ((getLeft() + getHalfWidth()) > worldBounds.getRight()) {
             setLeft(worldBounds.getRight() - getHalfWidth());
+        }
+        if (System.currentTimeMillis() - timer > 329){
+            shoot();
         }
     }
 
@@ -148,8 +155,14 @@ public class Ship extends Sprite {
     }
 
     private void shoot() {
+        timer = System.currentTimeMillis();
+        shoot.play(0.15f);
         Bullet bullet = bulletPool.obtain();
         tmp.set(this.pos.x, this.pos.y + getHalfHeight());
         bullet.set(this, bulletRegion, tmp, bulletV, worldBounds, 0.04f, 1);
+    }
+
+    public void dispose(){
+        shoot.dispose();
     }
 }

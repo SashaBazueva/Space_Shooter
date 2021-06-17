@@ -1,5 +1,7 @@
 package ru.bzbzz.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,6 +18,7 @@ public class GameScreen extends BaseScreen {
     private Ship ship;
     private BulletPool bulletPool;
 
+    private  Music gameMusic;
     @Override
     public void show() {
         isGameStart = true;
@@ -23,6 +26,10 @@ public class GameScreen extends BaseScreen {
         atlas = new TextureAtlas("textures/ship and enemy.atlas");
         bulletPool = new BulletPool();
         ship = new Ship(atlas, bulletPool);
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/game_sound.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.3f);
+        gameMusic.play();
     }
 
     @Override
@@ -44,6 +51,8 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        gameMusic.dispose();
+        ship.dispose();
     }
 
     @Override
@@ -55,7 +64,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void draw(){
-        ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
+        ScreenUtils.clear(0.06f, 0.06f, 0.1f, 1);
         batch.begin();
         super.draw();
         bulletPool.drawActiveSprites(batch);

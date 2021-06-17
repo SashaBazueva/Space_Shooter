@@ -79,7 +79,7 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public void draw() {
-        ScreenUtils.clear(0.36f, 0.09f, 0.53f, 1);
+        ScreenUtils.clear(0.06f, 0.06f, 0.1f, 1);
         batch.begin();
         super.draw();
         exit.draw(batch);
